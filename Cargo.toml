@@ -1,0 +1,12 @@
+[package]
+name = "rptree"
+version = "0.1.0"
+edition = "2021"
+authors = ["Night Cruising"]
+license = "MIT"
+description = "A command line tool for generating directory tree."
+readme = "README.md"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
