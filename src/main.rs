@@ -1,3 +1,12 @@
+use rptree::Config;
+use structopt::StructOpt;
+
 fn main() {
-    println!("Hello World");
+    let config = Config::from_args();
+    if !config.is_root_dir() {
+        eprintln!("Error: The specified root directory doesn't exist");
+        std::process::exit(1);
+    }
+
+    rptree::run(config);
 }
