@@ -1,5 +1,6 @@
-use rptree::Config;
 use structopt::StructOpt;
+
+use rptree::opt::Config;
 
 fn main() {
     let config = Config::from_args();
@@ -8,5 +9,11 @@ fn main() {
         std::process::exit(1);
     }
 
-    rptree::run(config);
+    if let Err(err) = rptree::run(config) {
+        eprintln!("Error: {}", err);
+        if let Some(cause) = err.source() {
+            eprintln!("Cause: {}", cause);
+        }
+        std::process::exit(1);
+    }
 }
