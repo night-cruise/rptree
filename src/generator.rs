@@ -18,11 +18,11 @@ impl TreeGenerator {
         TreeGenerator { trees: vec![] }
     }
 
-    pub fn get_trees(&self) -> &Vec<String> {
+    pub fn get_trees(&self) -> &[String] {
         &self.trees
     }
 
-    pub fn build_tree(&mut self, root_dir: &Path) -> Result<(), io::Error> {
+    pub fn build_tree(&mut self, root_dir: &Path) -> io::Result<()> {
         self.tree_head(root_dir);
         self.tree_body(root_dir, "")?;
 
