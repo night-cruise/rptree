@@ -6,6 +6,7 @@ authors = ["Night Cruising"]
 license = "MIT"
 description = "A command line tool for generating directory tree."
 readme = "README.md"
+license-file = "LICENSE"
 repository = "https://github.com/night-cruise/rptree"
 categories = ["command-line-utilities"]
 
