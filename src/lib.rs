@@ -7,6 +7,7 @@ use opt::Config;
 mod generator;
 pub mod opt;
 
+/// Run the program.
 pub fn run(config: Config) -> Result<(), Box<dyn std::error::Error>> {
     let mut tree_generator = TreeGenerator::new();
     tree_generator.build_tree(config.get_root_dir())?;
@@ -20,6 +21,7 @@ pub fn run(config: Config) -> Result<(), Box<dyn std::error::Error>> {
     Ok(())
 }
 
+/// Write output to stdout or file.
 fn write_output(mut writer: impl io::Write, trees: &[String]) -> io::Result<()> {
     for entry in trees {
         writeln!(writer, "{}", entry)?;

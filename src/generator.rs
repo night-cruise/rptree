@@ -7,7 +7,7 @@ const TEE: &str = "├──";
 const PIPE_PREFIX: &str = "│   ";
 const SPACE_PREFIX: &str = "    ";
 
-/// Tree Generator, for generating the file trees.
+/// Tree Generator, for generating the directory trees.
 #[derive(Debug)]
 pub struct TreeGenerator {
     trees: Vec<String>,
@@ -18,10 +18,12 @@ impl TreeGenerator {
         TreeGenerator { trees: vec![] }
     }
 
+    /// Get the directory trees result.
     pub fn get_trees(&self) -> &[String] {
         &self.trees
     }
 
+    /// Build the directory trees.
     pub fn build_tree(&mut self, root_dir: &Path) -> io::Result<()> {
         self.tree_head(root_dir);
         self.tree_body(root_dir, "")?;
@@ -29,6 +31,7 @@ impl TreeGenerator {
         Ok(())
     }
 
+    /// Parse tree head.
     fn tree_head(&mut self, root_dir: &Path) {
         if let Some(file_name) = root_dir.file_name() {
             if let Some(file_name) = file_name.to_str() {
@@ -39,6 +42,7 @@ impl TreeGenerator {
         }
     }
 
+    /// Parse tree body.
     fn tree_body(&mut self, directory: &Path, prefix: &str) -> io::Result<()> {
         let entries = self.prepare_entries(directory)?;
         let entries_count = entries.len();
