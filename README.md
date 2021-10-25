@@ -1,6 +1,9 @@
 # rptree
 A command line tool for generating directory tree.
 
+## Install
+`Cargo install rptree`
+
 ## Usage
 Enter `rptree - h` on the command line to view the detailed usage commands:
 ```text
