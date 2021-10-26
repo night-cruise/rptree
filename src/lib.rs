@@ -4,12 +4,12 @@ use std::io;
 use generator::TreeGenerator;
 use opt::Config;
 
-mod generator;
+pub mod generator;
 pub mod opt;
 
 /// Run the program.
 pub fn run(config: Config) -> Result<(), Box<dyn std::error::Error>> {
-    let mut tree_generator = TreeGenerator::new();
+    let mut tree_generator = TreeGenerator::new(config.dir_only());
     tree_generator.build_tree(config.get_root_dir())?;
 
     if let Some(file_name) = config.get_output_file() {

@@ -6,6 +6,10 @@ use structopt::StructOpt;
 #[derive(StructOpt, Debug)]
 #[structopt(name = "Rp Tree")]
 pub struct Config {
+    /// Only output dir
+    #[structopt(short, long)]
+    dir_only: bool,
+
     /// Output file
     #[structopt(short, long, parse(from_os_str))]
     output: Option<PathBuf>,
@@ -26,5 +30,9 @@ impl Config {
 
     pub fn get_output_file(&self) -> &Option<PathBuf> {
         &self.output
+    }
+
+    pub fn dir_only(&self) -> bool {
+        self.dir_only
     }
 }
