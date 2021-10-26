@@ -10,12 +10,16 @@ const SPACE_PREFIX: &str = "    ";
 /// Tree Generator, for generating the directory trees.
 #[derive(Debug)]
 pub struct TreeGenerator {
+    dir_only: bool,
     trees: Vec<String>,
 }
 
 impl TreeGenerator {
-    pub fn new() -> TreeGenerator {
-        TreeGenerator { trees: vec![] }
+    pub fn new(dir_only: bool) -> TreeGenerator {
+        TreeGenerator {
+            dir_only,
+            trees: vec![],
+        }
     }
 
     /// Get the directory trees result.
@@ -65,9 +69,19 @@ impl TreeGenerator {
     fn prepare_entries(&mut self, directory: &Path) -> io::Result<Vec<PathBuf>> {
         let mut v = vec![];
         let dirs = directory.read_dir()?;
-        for dir in dirs {
-            let dir = dir?;
-            v.push(dir.path());
+
+        if self.dir_only {
+            for dir in dirs {
+                let path = dir?.path();
+                if path.is_dir() {
+                    v.push(path);
+                }
+            }
+        } else {
+            for dir in dirs {
+                v.push(dir?.path());
+            }
+            v.sort_by_key(|a| a.is_file());
         }
 
         Ok(v)
@@ -92,11 +106,12 @@ impl TreeGenerator {
                 ));
 
                 let prefix = if index != entries_count - 1 {
-                    format!("{}{}", prefix, PIPE_PREFIX)
+                    prefix.to_owned() + PIPE_PREFIX
                 } else {
-                    format!("{}{}", prefix, SPACE_PREFIX)
+                    prefix.to_owned() + SPACE_PREFIX
                 };
                 self.tree_body(directory, &prefix)?;
+                self.trees.push(prefix.trim_end().to_string());
             }
         }
         Ok(())
@@ -106,7 +121,7 @@ impl TreeGenerator {
         if let Some(file_name) = file.file_name() {
             if let Some(file_name) = file_name.to_str() {
                 self.trees
-                    .push(format!("{}{} {}", prefix, connector, file_name));
+                    .push(format!("{}{}{}", prefix, connector, file_name));
             }
         }
     }
