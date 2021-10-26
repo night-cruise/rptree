@@ -14,6 +14,7 @@ pub struct TreeGenerator {
     trees: Vec<String>,
 }
 
+
 impl TreeGenerator {
     pub fn new(dir_only: bool) -> TreeGenerator {
         TreeGenerator {
