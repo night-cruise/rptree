@@ -7,14 +7,16 @@ Run the `cargo install rptree` command using *Cargo* package manager or go to th
 ## Usage
 Enter `rptree - h` on the command line to view the detailed usage commands:
 ```text
-Rp Tree 0.1.0
+Rp Tree 0.2.0
 An useful tool for generating directory tree
 
 USAGE:
+    rptree.exe [FLAGS] [OPTIONS] <ROOT_DIR>
 
 FLAGS:
-    -h, --help       Prints help information
-    -V, --version    Prints version information
+    -d, --dir-only    Only output dir
+    -h, --help        Prints help information
+    -V, --version     Prints version information
 
 OPTIONS:
     -o, --output <output>    Output file
