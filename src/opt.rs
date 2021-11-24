@@ -10,9 +10,13 @@ pub struct Config {
     #[structopt(short, long)]
     dir_only: bool,
 
-    /// Output file
+    /// Prints to file
     #[structopt(short, long, parse(from_os_str))]
     output: Option<PathBuf>,
+
+    /// Prints color, only supports green, blue and red
+    #[structopt(short, long)]
+    color: Option<String>,
 
     /// Root dir for generate directory tree
     #[structopt(name = "ROOT_DIR", parse(from_os_str))]
@@ -34,5 +38,13 @@ impl Config {
 
     pub fn dir_only(&self) -> bool {
         self.dir_only
+    }
+
+    pub fn get_color(&self) -> Option<&str> {
+        if let Some(color) = &self.color {
+            Some(color)
+        } else {
+            None
+        }
     }
 }
