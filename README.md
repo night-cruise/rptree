@@ -2,7 +2,7 @@
 A command line tool for generating directory tree.
 
 ## Install
-`cargo insall rptree` or go to the [release](https://github.com/night-cruise/rptree/releases) page to download rptree.exe
+`cargo install rptree`
 
 ## Usage
 Enter `rptree - h` on the command line to view the detailed usage commands:
