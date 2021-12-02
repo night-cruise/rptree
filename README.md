@@ -1,5 +1,5 @@
 # rptree
-A command line tool for generating directory tree.
+*A command line tool for generating directory tree.*
 
 ## Install
 `cargo install rptree`
