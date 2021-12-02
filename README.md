@@ -25,6 +25,10 @@ OPTIONS:
 ARGS:
     <ROOT_DIR>    Root dir for generate directory tree
 ```
+
+## Reference
+* https://pypi.org/project/rptree/
+
 ## LICENSE
 This project is licensed under the MIT License (see the
 [LICENSE](LICENSE) file for details).
