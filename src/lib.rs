@@ -11,7 +11,8 @@ pub mod opt;
 /// Run the program.
 pub fn run(config: Config) -> Result<(), Box<dyn std::error::Error>> {
     let mut tree_generator = TreeGenerator::new(config.dir_only());
-    tree_generator.build_tree(config.get_root_dir())?;
+    tree_generator.build_tree(config.get_root_dir(), config.get_filter())?;
+
 
     if let Some(file_name) = config.get_output_file() {
         output_to_file(File::create(file_name)?, tree_generator.get_trees())?;
