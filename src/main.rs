@@ -17,9 +17,9 @@ fn main() {
     }
 
     if let Err(err) = rptree::run(config) {
-        eprintln!("ERROR: {}", err);
+        eprintln!("ERROR: {err}");
         if let Some(source) = err.source() {
-            eprintln!("SOURCE: {}", source);
+            eprintln!("SOURCE: {source}");
         }
         std::process::exit(1);
     }

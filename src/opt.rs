@@ -25,8 +25,7 @@ pub struct Config {
     /// Directories to be filtered out
     #[structopt(short = "f", long = "filter", use_delimiter = true)]
     filter: Vec<String>,
-
-    }
+}
 
 impl Config {
     pub fn is_root_dir(&self) -> bool {
@@ -56,6 +55,4 @@ impl Config {
     pub fn get_filter(&self) -> &Vec<String> {
         &self.filter
     }
-
-    
 }

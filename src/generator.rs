@@ -46,9 +46,6 @@ impl TreeGenerator {
         }
     }
 
-
-
-
     /// Parse tree body.
     fn tree_body(&mut self, directory: &Path, prefix: &str, filter: &[String]) -> io::Result<()> {
         let entries = self.prepare_entries(directory, filter)?;
@@ -68,7 +65,6 @@ impl TreeGenerator {
 
         Ok(())
     }
-
 
     fn prepare_entries(&mut self, directory: &Path, filter: &[String]) -> io::Result<Vec<PathBuf>> {
         let mut v = vec![];
@@ -94,7 +90,6 @@ impl TreeGenerator {
         Ok(v)
     }
 
-
     fn add_directory(
         &mut self,
         directory: &Path,
@@ -102,7 +97,7 @@ impl TreeGenerator {
         entries_count: usize,
         prefix: &str,
         connector: &str,
-        filter: &[String]
+        filter: &[String],
     ) -> io::Result<()> {
         if let Some(file_name) = directory.file_name() {
             if let Some(file_name) = file_name.to_str() {
@@ -129,8 +124,7 @@ impl TreeGenerator {
     fn add_file(&mut self, file: &Path, prefix: &str, connector: &str) {
         if let Some(file_name) = file.file_name() {
             if let Some(file_name) = file_name.to_str() {
-                self.trees
-                    .push(format!("{}{}{}", prefix, connector, file_name));
+                self.trees.push(format!("{prefix}{connector}{file_name}"));
             }
         }
     }
