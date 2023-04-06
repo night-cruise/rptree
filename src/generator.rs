@@ -28,9 +28,9 @@ impl TreeGenerator {
     }
 
     /// Build the directory trees.
-    pub fn build_tree(&mut self, root_dir: &Path) -> io::Result<()> {
+    pub fn build_tree(&mut self, root_dir: &Path, filter: &[String]) -> io::Result<()> {
         self.tree_head(root_dir);
-        self.tree_body(root_dir, "")?;
+        self.tree_body(root_dir, "", filter)?;
 
         Ok(())
     }
@@ -46,9 +46,12 @@ impl TreeGenerator {
         }
     }
 
+
+
+
     /// Parse tree body.
-    fn tree_body(&mut self, directory: &Path, prefix: &str) -> io::Result<()> {
-        let entries = self.prepare_entries(directory)?;
+    fn tree_body(&mut self, directory: &Path, prefix: &str, filter: &[String]) -> io::Result<()> {
+        let entries = self.prepare_entries(directory, filter)?;
         let entries_count = entries.len();
         for (index, entry) in entries.iter().enumerate() {
             let connector = if index == entries_count - 1 {
@@ -57,7 +60,7 @@ impl TreeGenerator {
                 TEE
             };
             if entry.is_dir() {
-                self.add_directory(entry, index, entries_count, prefix, connector)?;
+                self.add_directory(entry, index, entries_count, prefix, connector, filter)?;
             } else {
                 self.add_file(entry, prefix, connector);
             }
@@ -66,26 +69,31 @@ impl TreeGenerator {
         Ok(())
     }
 
-    fn prepare_entries(&mut self, directory: &Path) -> io::Result<Vec<PathBuf>> {
+
+    fn prepare_entries(&mut self, directory: &Path, filter: &[String]) -> io::Result<Vec<PathBuf>> {
         let mut v = vec![];
         let dirs = directory.read_dir()?;
 
-        if self.dir_only {
-            for dir in dirs {
-                let path = dir?.path();
-                if path.is_dir() {
+        for dir in dirs {
+            let path = dir?.path();
+            if !filter.contains(&path.file_name().unwrap().to_string_lossy().into_owned()) {
+                if self.dir_only {
+                    if path.is_dir() {
+                        v.push(path);
+                    }
+                } else {
                     v.push(path);
                 }
             }
-        } else {
-            for dir in dirs {
-                v.push(dir?.path());
-            }
+        }
+
+        if !self.dir_only {
             v.sort_by_key(|a| a.is_file());
         }
 
         Ok(v)
     }
+
 
     fn add_directory(
         &mut self,
@@ -94,6 +102,7 @@ impl TreeGenerator {
         entries_count: usize,
         prefix: &str,
         connector: &str,
+        filter: &[String]
     ) -> io::Result<()> {
         if let Some(file_name) = directory.file_name() {
             if let Some(file_name) = file_name.to_str() {
@@ -110,7 +119,7 @@ impl TreeGenerator {
                 } else {
                     prefix.to_owned() + SPACE_PREFIX
                 };
-                self.tree_body(directory, &prefix)?;
+                self.tree_body(directory, &prefix, filter)?;
                 self.trees.push(prefix.trim_end().to_string());
             }
         }

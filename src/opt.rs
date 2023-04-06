@@ -21,7 +21,12 @@ pub struct Config {
     /// Root dir for generate directory tree
     #[structopt(name = "ROOT_DIR", parse(from_os_str))]
     root_dir: PathBuf,
-}
+
+    /// Directories to be filtered out
+    #[structopt(short = "f", long = "filter", use_delimiter = true)]
+    filter: Vec<String>,
+
+    }
 
 impl Config {
     pub fn is_root_dir(&self) -> bool {
@@ -47,4 +52,10 @@ impl Config {
             None
         }
     }
+
+    pub fn get_filter(&self) -> &Vec<String> {
+        &self.filter
+    }
+
+    
 }
